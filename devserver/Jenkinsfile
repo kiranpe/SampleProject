@@ -1,4 +1,10 @@
 pipeline {
+  
+   environment {
+     DOCKER_REGISTRY='https://hub.docker.com/'
+     CONTAINER='kiranp23/apache'
+     VERSION="1.${BUILD_NUMBER}"
+   }
 
    agent any
      
@@ -6,19 +12,24 @@ pipeline {
      
      stage('build docker image') {
          steps {
-          sh 'sudo docker build -t apache .'
+           script {
+             docker.withRegistry("${DOCKER_REGISTRY}", 'docker-registry-credentials’) {
+                def img = docker.build("${CONTAINER}:${VERSION}")
+                img.push()
+             }
+           }
          }
      }
 
      stage('Check the staus') {
          steps {
-           sh 'ansible-playbook ${WORKSPACE}/devserver/image-status.yml'
+           sh 'ansible-playbook ${WORKSPACE}/prodserver/image-status.yml'
          }
      }
     
      stage('Copy SSH key to dev server') {
          steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/devserver/push-ssh-key.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/prodserver/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/prodserver/push-ssh-key.yml'
          }
      } 
  
@@ -34,7 +45,7 @@ pipeline {
            {
             script {
              echo "deploying to dev server"
-             sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}" -e "ansible_python_interpreter=/usr/bin/python2.7"'
+             sh 'ansible-playbook -i ${WORKSPACE}/prodserver/jenkinsci ${WORKSPACE}/prodserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} ${VERSION} ansible_python_interpreter=/usr/bin/python2.7"'
             }
            }
         }
