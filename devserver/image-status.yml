@@ -1,6 +1,5 @@
 - name: checking image status
-  hosts: devserver
-  become: yes
+  hosts: localhost
   
   tasks:
   - name: check image exists or not

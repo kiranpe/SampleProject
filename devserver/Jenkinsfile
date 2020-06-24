@@ -11,25 +11,25 @@ pipeline {
 
      stage('Check the staus') {
          steps {
-           sh 'ansible-playbook ${WORKSPACE}/image-status.yml -e "hub_user=${HUB_user} hub_pass=${HUB_pass}"'
+           sh 'ansible-playbook ${WORKSPACE}/devserver/image-status.yml -e "hub_user=${HUB_user} hub_pass=${HUB_pass}"'
          }
      }
     
      stage('Copy SSH key to dev server') {
          steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/push-ssh-key.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/devserver/push-ssh-key.yml'
          }
      } 
  
      stage('Copy html file in to dev server') {
          steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/push-to-dev.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/push-to-dev.yml'
          }
      }
   
      stage('Run health check on dev server') {
         steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/health-check.yml "hub_user=${HUB_user} hub_pass=${HUB_pass}"'
+           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/health-check.yml "hub_user=${HUB_user} hub_pass=${HUB_pass}"'
         }
      }
    }
