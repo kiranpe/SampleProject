@@ -1,9 +1,5 @@
 pipeline {
 
-   environment {
-     registryCredential = 'docker_id'
-   }
-
    agent any
      
     stages {
@@ -11,6 +7,18 @@ pipeline {
      stage('build docker image') {
          steps {
           sh 'sudo docker build -t apache ${WORKSPACE}/devserver'
+         }
+     }
+
+     stage('Docker Credentials') {
+         steps {
+           withCredentials([
+             usernamePassword(
+                credentialsId: 'docker-id',
+                usernameVariable: 'DOCKER_USER’,
+                passwordVariable: 'DOCKER_PASSWORD'
+             )
+           ])
          }
      }
 
@@ -26,15 +34,9 @@ pipeline {
          }
      } 
  
-     stage('Copy html file in to dev server') {
-         steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/push-to-dev.yml'
-         }
-     }
-  
-     stage('Run health check on dev server') {
+     stage('Deploy on dev server') {
         steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/health-check.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
         }
      }
    }
