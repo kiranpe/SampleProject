@@ -1,5 +1,6 @@
 - name: checking image status
   hosts: localhost
+  become: yes
   
   tasks:
   - name: check image exists or not
@@ -28,13 +29,9 @@
     until: result.status == 200
 
   - debug: msg="Url staus is {{ result.status }}"
- 
-  - name: login to docker hub
-    docker_login:
-     username: "{{ hub_user }}"
-     password: "{{ hub_pass }}" 
-     reauthorize: yes
-    register: login_results
-    
-  - debug:
-        var: login_results
+
+  - name: create tag for image
+    shell: docker tag apache:latest kiranp23/apache:latest
+
+  - name: push image to docker hub
+    shell: docker push kiranp23/apache:latest 
