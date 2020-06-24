@@ -1,0 +1,36 @@
+pipeline {
+   angent any
+     
+    stages {
+     
+     stage('build docker image') {
+         steps {
+          sh 'sudo docker build -t apache .'
+         }
+     }
+
+     stage('Check the staus') {
+         steps {
+           sh 'ansible-playbook ${env.WORKSPACE}/image-status.yml -e "hub_user= hub_pass="'
+         }
+     }
+    
+     stage('Copy SSH key to dev server') {
+         steps {
+           sh 'ansible-playbook -i ${env.WORKSPACE}/jenkinsci --private-key /sites/privatekey.pem ${env.WORKSPACE}/push-ssh-key.yml'
+         }
+     } 
+ 
+     stage('Copy html file in to dev server') {
+         steps {
+           sh 'ansible-playbook -i ${env.WORKSPACE}/jenkinsci ${env.WORKSPACE}/push-to-dev.yml'
+         }
+     }
+  
+     stage('Run health check on dev server') {
+        steps {
+           sh 'ansible-playbook -i ${env.WORKSPACE}/jenkinsci ${env.WORKSPACE}/health-check.yml "hub_user= hub_pass="'
+        }
+     }
+   }
+}
