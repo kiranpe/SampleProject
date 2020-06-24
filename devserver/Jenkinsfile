@@ -10,18 +10,6 @@ pipeline {
          }
      }
 
-     stage('Docker Credentials') {
-         steps {
-           withCredentials([
-             usernamePassword(
-                credentialsId: 'docker-id',
-                usernameVariable: 'DOCKER_USER',
-                passwordVariable: 'DOCKER_PASSWORD'
-             )
-           ])
-         }
-     }
-
      stage('Check the staus') {
          steps {
            sh 'ansible-playbook ${WORKSPACE}/devserver/image-status.yml'
@@ -36,7 +24,19 @@ pipeline {
  
      stage('Deploy on dev server') {
         steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+         withCredentials([
+             usernamePassword(
+                credentialsId: 'docker-id',
+                usernameVariable: 'DOCKER_USER',
+                passwordVariable: 'DOCKER_PASSWORD'
+             )
+           ])
+           {
+            script {
+             echo "deploying to dev server"
+             sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+            }
+           }
         }
      }
    }
