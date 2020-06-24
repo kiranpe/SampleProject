@@ -20,8 +20,8 @@
   
   - set_fact: ip_address={{ result.stdout }}
 
-  - name: pause for 20 seconds
-    pause: 20
+  - pause:
+     seconds: 20
 
   - name: check health of the url
     uri: url=http://{{ ip_address }}:7010

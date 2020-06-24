@@ -5,31 +5,31 @@ pipeline {
      
      stage('build docker image') {
          steps {
-          sh 'cd ${env.WORKSPACE}/devserver && sudo docker build -t apache .'
+          sh 'sudo docker build -t apache ${WORKSPACE}/devserver'
          }
      }
 
      stage('Check the staus') {
          steps {
-           sh 'ansible-playbook ${env.WORKSPACE}/image-status.yml -e "hub_user= hub_pass="'
+           sh 'ansible-playbook ${WORKSPACE}/image-status.yml -e "hub_user=${HUB_user} hub_pass=${HUB_pass}"'
          }
      }
     
      stage('Copy SSH key to dev server') {
          steps {
-           sh 'ansible-playbook -i ${env.WORKSPACE}/jenkinsci --private-key /sites/privatekey.pem ${env.WORKSPACE}/push-ssh-key.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/push-ssh-key.yml'
          }
      } 
  
      stage('Copy html file in to dev server') {
          steps {
-           sh 'ansible-playbook -i ${env.WORKSPACE}/jenkinsci ${env.WORKSPACE}/push-to-dev.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/push-to-dev.yml'
          }
      }
   
      stage('Run health check on dev server') {
         steps {
-           sh 'ansible-playbook -i ${env.WORKSPACE}/jenkinsci ${env.WORKSPACE}/health-check.yml "hub_user= hub_pass="'
+           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/health-check.yml "hub_user=${HUB_user} hub_pass=${HUB_pass}"'
         }
      }
    }
