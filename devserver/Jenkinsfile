@@ -5,7 +5,7 @@ pipeline {
      
      stage('build docker image') {
          steps {
-          sh 'sudo docker build -t apache .'
+          sh 'cd ${env.WORKSPACE}/devserver && sudo docker build -t apache .'
          }
      }
 
