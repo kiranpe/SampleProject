@@ -1,5 +1,6 @@
 - name: push ssh key to dev and prod servers
   hosts: devserver
+  gather_facts: no
   
   tasks:
   - name: pushing ssh to dev and prod for key less login

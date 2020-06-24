@@ -1,16 +1,9 @@
 - name: checking image status
   hosts: devserver
   become: yes
+  gather_facts: no
   
   tasks:
-  - name: check image exists or not
-    shell: docker ps | grep apache
-    register: result
- 
-  - name: if image is runing
-    shell: docker stop apache && docker rm apache
-    when: result is succeedd
-  
   - name: login to docker hub
     docker_login:
      username: "{{ hub_user }}"
@@ -43,3 +36,11 @@
     until: result.status == 200
 
   - debug: msg="Url staus is {{ result.status }}"
+ 
+  - name: check image exists or not
+    shell: docker ps | grep apache
+    register: result
+
+  - name: if image is runing
+    shell: docker stop apache && docker rm apache
+    when: result is succeeded

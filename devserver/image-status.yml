@@ -1,6 +1,7 @@
 - name: checking image status
   hosts: localhost
   become: yes
+  gather_facts: no
   
   tasks:
   - name: run the docker image
