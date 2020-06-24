@@ -13,10 +13,7 @@ pipeline {
      stage('build docker image') {
          steps {
            script {
-             docker.withRegistry("${DOCKER_REGISTRY}", 'docker-id') {
-                def img = docker.build("${CONTAINER}:${VERSION}")
-                img.push()
-             }
+                docker.build("${CONTAINER}:${VERSION}")
            }
          }
      }
