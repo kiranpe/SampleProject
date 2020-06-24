@@ -1,7 +1,7 @@
 pipeline {
   
    environment {
-     DOCKER_REGISTRY='https://hub.docker.com/'
+     DOCKER_REGISTRY='http://registry-1.docker.io'
      CONTAINER='kiranp23/apache'
      VERSION="1.${BUILD_NUMBER}"
    }
