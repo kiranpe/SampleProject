@@ -3,14 +3,6 @@
   become: yes
   
   tasks:
-  - name: check image exists or not
-    shell: docker ps | grep apache
-    register: result
- 
-  - name: if image is runing
-    shell: docker stop apache && docker rm apache
-    when: result is succeedd
-  
   - name: run the docker image
     shell: docker run -it -p 7010:80 --name apache -d apache:latest
   
@@ -35,3 +27,11 @@
 
   - name: push image to docker hub
     shell: docker push kiranp23/apache:latest 
+
+  - name: check image exists or not
+    shell: docker ps | grep apache
+    register: result
+
+  - name: if image is runing
+    shell: docker stop apache && docker rm apache
+    when: result is succeeded
