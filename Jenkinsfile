@@ -20,13 +20,13 @@ pipeline {
 
      stage('Check the staus') {
          steps {
-           sh 'ansible-playbook ${WORKSPACE}/devserver/image-status.yml'
+           sh 'ansible-playbook ${WORKSPACE}/image-status.yml'
          }
      }
     
      stage('Copy SSH key to dev server') {
          steps {
-           sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/devserver/push-ssh-key.yml'
+           sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/push-ssh-key.yml'
          }
      } 
  
@@ -42,7 +42,7 @@ pipeline {
            {
             script {
              echo "deploying to dev server"
-             sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
             }
            }
         }
