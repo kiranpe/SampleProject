@@ -7,8 +7,8 @@ pipeline {
    }
 
    parameters {
-       string(name: 'devserver', description: 'dev environment')
-       string(name: 'prodserver' description: 'prod environment')
+       string(name: 'devserver', defaultValue: 'devserver', description: 'dev environment')
+       string(name: 'prodserver', defaultValue: 'prodserver', description: 'prod environment')
    }
 
    agent any
