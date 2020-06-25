@@ -1,6 +1,6 @@
 [jenkinsci]
-3.16.43.102 ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python2.7
+18.221.46.193 ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python2.7
 [prodserver]
-18.219.238.114 ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python2.7
+18.191.140.27 ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python2.7
 [devserver]
-18.220.249.230 ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python2.7
+3.12.198.210 ansible_user=ubuntu ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=/usr/bin/python2.7
