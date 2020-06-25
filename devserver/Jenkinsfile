@@ -13,7 +13,7 @@ pipeline {
      stage('build docker image') {
          steps {
            script {
-             docker.build("${CONTAINER}:${VERSION}")
+                docker.build("${CONTAINER}:${VERSION}")
            }
          }
      }
