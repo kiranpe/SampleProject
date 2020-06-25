@@ -6,6 +6,11 @@ pipeline {
      VERSION="latest"
    }
 
+   parameters {
+       string(name: 'devserver', description: 'dev environment')
+       string(name: 'prodserver' description: 'prod environment')
+   }
+
    agent any
      
     stages {
@@ -30,7 +35,12 @@ pipeline {
          }
      } 
  
-     stage('Deploy on dev server') {
+     stage('Deployment') {
+      parallel {
+       stage('Deploy to Dev Server'){
+        when {
+         branch 'release'
+        }
         steps {
          withCredentials([
              usernamePassword(
@@ -46,6 +56,29 @@ pipeline {
             }
            }
         }
+       }
+   
+       stage('Deploy to Dev Server'){
+        when {
+         branch 'master'
+        } 
+        steps {
+         withCredentials([
+             usernamePassword(
+                credentialsId: 'docker-id',
+                usernameVariable: 'DOCKER_USER',
+                passwordVariable: 'DOCKER_PASSWORD'
+             )
+           ])
+           {
+            script {
+             echo "deploying to dev server"
+             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+            }
+           }
+        }
+       }
+      }
      }
    }
 }
