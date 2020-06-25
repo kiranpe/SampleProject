@@ -1,12 +1,20 @@
 pipeline {
 
+   environment {
+     DOCKER_REGISTRY='http://registry-1.docker.io'
+     CONTAINER='kiranp23/apache'
+     VERSION="latest"
+   }
+
    agent any
      
     stages {
      
      stage('build docker image') {
          steps {
-          sh 'sudo docker build -t apache .'
+           script {
+             docker.build("${CONTAINER}:${VERSION}")
+           }
          }
      }
 
@@ -34,7 +42,7 @@ pipeline {
            {
             script {
              echo "deploying to dev server"
-             sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}" -e "ansible_python_interpreter=/usr/bin/python2.7"'
+             sh 'ansible-playbook -i ${WORKSPACE}/devserver/jenkinsci ${WORKSPACE}/devserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
             }
            }
         }
