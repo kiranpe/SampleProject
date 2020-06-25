@@ -2,7 +2,7 @@ pipeline {
 
    environment {
      DOCKER_REGISTRY='http://registry-1.docker.io'
-     CONTAINER='kiranp23/apache'
+     CONTAINER='apache'
      VERSION="latest"
    }
 
