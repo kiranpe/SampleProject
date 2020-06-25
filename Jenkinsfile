@@ -58,7 +58,7 @@ pipeline {
         }
        }
    
-       stage('Deploy to Dev Server'){
+       stage('Deploy to Prod Server'){
         when {
          branch 'master'
         } 
@@ -72,7 +72,7 @@ pipeline {
            ])
            {
             script {
-             echo "deploying to dev server"
+             echo "deploying to prod server"
              sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
             }
            }
