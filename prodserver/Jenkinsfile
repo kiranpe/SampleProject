@@ -42,7 +42,7 @@ pipeline {
            {
             script {
              echo "deploying to dev server"
-             sh 'ansible-playbook -i ${WORKSPACE}/prodserver/jenkinsci ${WORKSPACE}/prodserver/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+             sh 'ansible-playbook -i ${WORKSPACE}/prodserver/jenkinsci ${WORKSPACE}/prodserver/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
             }
            }
         }
