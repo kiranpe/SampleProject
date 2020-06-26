@@ -31,7 +31,7 @@ pipeline {
      stage('Check the staus') {
          steps {
           script {
-           sh 'ansible-playbook ${WORKSPACE}/image-status.yml -e image_version="${env.VERSION}"'
+              ansible-playbook ${WORKSPACE}/image-status.yml -e image_version="${env.VERSION}"
           }
          }
      }
@@ -61,7 +61,7 @@ pipeline {
            {
             script {
              echo "deploying to dev server"
-             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version='${env.VERSION}'"'
+             ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${env.VERSION}"
             }
            }
         }
@@ -84,7 +84,7 @@ pipeline {
            {
             script {
              echo "deploying to prod server"
-             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${env.VERSION}"'
+             ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${env.VERSION}"
             }
            }
         }
