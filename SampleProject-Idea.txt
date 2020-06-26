@@ -16,12 +16,12 @@
 
 --> run the build with release branch - git + jenkins + ansible
 
---> check the image status on jenkins server first - shellscript + jenkins + ansible
+--> check the image status on jenkins server first - shellscript + jenkins + docker + ansible
 
---> on success deploy container to dev server - shellscript + jenkins + ansible
+--> on success deploy container to dev server - shellscript + jenkins + docker + ansible
       
 --> test the application url in dev server - jenkins + ansible
        
 --> on dev build success megre the code to master - git
        
---> run the prod build and push code to prod server - shellscript + git + jenkins + ansible
+--> run the prod build and push code to prod server - shellscript + git + jenkins + docker + ansible
