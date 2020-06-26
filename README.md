@@ -12,6 +12,10 @@
 
 #Path: Manage Jenkins > Manage Plugins > Avaialble > Search for Docker
 
-#Update the ips in jenkinsci file in dev branch
+#Update the ips in jenkinsci file in release branch and commit to release
 
-#Once it's done set up build with dev branch
+#Once it's done set up build with release branch
+
+#In first build you will not get deployment options but from second build it will ask for deployment options
+
+#Once dev build is success with release branch the commit the code to master and set up prod build with master branch 
