@@ -16,9 +16,13 @@
 
 #Once it's done set up build with release branch
 
+#Path: New Item > Project Name > Pipeline > Pipeline Script from SCM > Git > Repo URL > release branch > Save
+
 #In first build you will not get deployment options but from second build it will ask for deployment options
 
 #Once dev build is success with release branch the commit the code to master and set up prod build with master branch 
+
+#Path: Same As Dev Build.. use master branch
 
 #V.IMP NOTE: After merging check hosts details in yml files and correct the prodserver if they pointed to devserver
 
