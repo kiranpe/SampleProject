@@ -1,0 +1,27 @@
+--> create keypair and security group in AWS - terraform
+
+--> create jenkins, dev, prod instances in AWS - terraform
+
+--> install docker on jenkins, dev and prod server - ansible
+
+--> create a project repo with master and release branch - git
+
+--> checkout the empty repo to local - git
+
+--> create jenkins file with dev and prod server choices and yml files in local - git
+
+--> commit the code to release branch - git 
+
+--> create dev build with parametes - jenkins
+
+--> run the build with release branch - git + jenkins + ansible
+
+--> check the image status on jenkins server first - shellscript + jenkins + ansible
+
+--> on success deploy container to dev server - shellscript + jenkins + ansible
+      
+--> test the application url in dev server - jenkins + ansible
+       
+--> on dev build success megre the code to master - git
+       
+--> run the prod build and push code to prod server - shellscript + git + jenkins + ansible
