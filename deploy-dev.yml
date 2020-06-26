@@ -2,6 +2,9 @@
   hosts: devserver
   become: yes
   gather_facts: no
+
+  vars:
+   imaage_version: "{{ VERSION }}"
   
   tasks:
   - name: login to docker hub
