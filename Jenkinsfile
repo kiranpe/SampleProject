@@ -38,7 +38,7 @@ pipeline {
       parallel {
        stage('Deploy to Dev Server'){
         when {
-          allof{
+          allOf{
              environment ignoreCase: true, name: "DEPLOY_TO", value: "devserver";
           }
         }
@@ -61,7 +61,7 @@ pipeline {
    
        stage('Deploy to Prod Server'){
         when {
-          allof {
+          allOf {
              environment ignoreCase: true, name: "DEPLOY_TO", value: "prodserver";
           }
         } 
