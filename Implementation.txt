@@ -1,8 +1,10 @@
---> created keypair and security group in AWS - terraform - files are under terraform folder
+--> created keypair and security group in AWS - terraform - files are in SampleProjectTerraform repo
 
---> create jenkins, dev, prod instances in AWS - terraform - files are under terraform folder
+--> create jenkins, dev, prod instances in AWS - terraform - files are in SampleProjectTerraform repo
 
---> install docker on jenkins, dev and prod server - ansible - files are under terraform folder
+--> install docker on jenkins, dev and prod server - ansible - files are in SampleProjectTerraform repo
+
+#SampleProjectTerraform: https://github.com/kiranpe/SampleProjectTerraform.git
 
 --> create a project repo with master and release branch - git - creates SampleProject in git
 
