@@ -3,7 +3,7 @@ pipeline {
    environment {
      DOCKER_REGISTRY='http://registry-1.docker.io'
      CONTAINER='apache'
-     VERSION="latest"
+     VERSION="1.${BUILD_NUMBER}"
    }
 
    parameters {
@@ -59,7 +59,7 @@ pipeline {
            {
             script {
              echo "deploying to dev server"
-             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-dev.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${VERSION}"'
             }
            }
         }
@@ -82,7 +82,7 @@ pipeline {
            {
             script {
              echo "deploying to prod server"
-             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD}"'
+             sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e "hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${VERSION}"'
             }
            }
         }

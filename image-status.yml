@@ -2,10 +2,13 @@
   hosts: localhost
   become: yes
   gather_facts: no
+ 
+  vars:
+   image_version: "{{ VERSION }}"
   
   tasks:
   - name: run the docker image
-    shell: docker run -it -p 7010:80 --name apache -d apache:latest
+    shell: docker run -it -p 7010:80 --name apache -d apache:"{{ image_version }}"
   
   - name: get the ip address
     shell: curl http://169.254.169.254/latest/meta-data/public-ipv4
@@ -24,10 +27,10 @@
   - debug: msg="Url staus is {{ result.status }}"
 
   - name: create tag for image
-    shell: docker tag apache:latest kiranp23/apache:latest
+    shell: docker tag apache:latest kiranp23/apache:"{{ image_version }}"
 
   - name: push image to docker hub
-    shell: docker push kiranp23/apache:latest 
+    shell: docker push kiranp23/apache:"{{ image_version }}"
 
   - name: check image exists or not
     shell: docker ps | grep apache
