@@ -3,9 +3,6 @@
   become: yes
   gather_facts: no
  
-  vars:
-   image_version: "{{ VERSION }}"
-  
   tasks:
   - name: run the docker image
     shell: docker run -it -p 7010:80 --name apache -d apache:"{{ image_version }}"
