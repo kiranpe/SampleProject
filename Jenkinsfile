@@ -30,7 +30,9 @@ pipeline {
 
      stage('Check the staus') {
          steps {
-           sh 'ansible-playbook ${WORKSPACE}/image-status.yml -e "image_version='${env.VERSION}'"'
+          script {
+           sh 'ansible-playbook ${WORKSPACE}/image-status.yml -e image_version="${env.VERSION}"'
+          }
          }
      }
     
