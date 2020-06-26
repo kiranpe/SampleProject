@@ -14,6 +14,17 @@
   - debug:
         var: login_results
   
+  - name: copy image check script
+    copy:
+     src: check-image.sh
+     dest: /home/ubuntu
+     owner: ubuntu
+     group: ubuntu
+     mode: '0755'
+
+  - name: remove if old container is up
+    shell: sh /home/ubuntu/check-image.sh
+
   - name: pull apache image
     shell: docker pull kiranp23/apache:"{{ image_version }}"
   
@@ -36,11 +47,3 @@
     until: result.status == 200
 
   - debug: msg="Url staus is {{ result.status }}"
- 
-  - name: check image exists or not
-    shell: docker ps | grep apache
-    register: result
-
-  - name: if image is runing
-    shell: docker stop apache && docker rm apache
-    when: result is succeeded

@@ -27,6 +27,12 @@ pipeline {
            }
          }
      }
+ 
+     stage('checking old container') {
+        steps {
+           sh 'sh check-image.sh'
+        }
+     }
 
      stage('Check the staus') {
          steps {
