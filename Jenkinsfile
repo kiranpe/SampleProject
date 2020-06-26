@@ -3,7 +3,7 @@ pipeline {
    environment {
      DOCKER_REGISTRY='http://registry-1.docker.io'
      CONTAINER='apache'
-     VERSION="1.${BUILD_NUMBER}"
+     VERSION="latest"
    }
 
    parameters {
