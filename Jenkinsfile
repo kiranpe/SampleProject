@@ -39,7 +39,7 @@ pipeline {
       parallel {
        stage('Deploy to Dev Server'){
         when {
-         expression { env.gitlabBranch == 'release' }
+         expression { return env.GIT_BRANCH == "origin/release" }
         }
         steps {
          withCredentials([
@@ -60,7 +60,7 @@ pipeline {
    
        stage('Deploy to Prod Server'){
         when {
-         expression { env.gitlabBranch == 'master' }
+         expression { return env.GIT_BRANCH == "origin/master" }
         } 
         steps {
          withCredentials([
