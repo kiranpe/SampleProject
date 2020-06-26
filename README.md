@@ -19,3 +19,7 @@
 #In first build you will not get deployment options but from second build it will ask for deployment options
 
 #Once dev build is success with release branch the commit the code to master and set up prod build with master branch 
+
+#V.IMP NOTE: After merging check hosts details in yml files and correct the prodserver if they pointed to devserver
+
+#Don't mess with Jenkinsfile and ymls
