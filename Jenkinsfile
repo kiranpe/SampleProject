@@ -13,6 +13,12 @@ pipeline {
    agent any
      
     stages {
+
+     stage('Clean old images') {
+         steps {
+          sh "docker system prune -a -f"
+         }
+     }
      
      stage('build docker image') {
          steps {
