@@ -7,7 +7,7 @@ pipeline {
    }
 
    parameters {
-       choice(name: 'DEPLOY_TO', choices: ['devserver', 'prodserver'], description: 'choose environment')
+       choice(name: 'DEPLOY_TO', choices: ['devserver\nprodserver'], description: 'choose environment')
    }
 
    agent any
@@ -38,9 +38,7 @@ pipeline {
       parallel {
        stage('Deploy to Dev Server'){
         when {
-          allof{
-             environment ignoreCase: true, name: "DEPLOY_TO", value: "devserver";
-          }
+         expression { return env.GIT_BRANCH == "origin/release" }
         }
         steps {
          withCredentials([
@@ -61,9 +59,7 @@ pipeline {
    
        stage('Deploy to Prod Server'){
         when {
-          allof {
-             environment ignoreCase: true, name: "DEPLOY_TO", value: "prodserver";
-          }
+         expression { return env.GIT_BRANCH == "origin/master" }
         } 
         steps {
          withCredentials([
