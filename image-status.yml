@@ -24,7 +24,7 @@
   - debug: msg="Url staus is {{ result.status }}"
 
   - name: create tag for image
-    shell: docker tag apache:latest kiranp23/apache:"{{ image_version }}"
+    shell: docker tag apache:"{{ image_version }}" kiranp23/apache:"{{ image_version }}"
 
   - name: push image to docker hub
     shell: docker push kiranp23/apache:"{{ image_version }}"
