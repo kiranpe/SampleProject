@@ -1,4 +1,8 @@
-#Simple web app project for practice
+#Simple web app project
+
+#Tech Used
+
+#AWS + Terraform + Docker + Ansible + Jenkins + Git + ShellScripting + HTML
 
 #Once instances creation is done login in to jenkins and do below
 
