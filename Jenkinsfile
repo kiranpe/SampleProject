@@ -39,7 +39,7 @@ pipeline {
         }
      }
 
-     stage('Check the staus') {
+     stage('Run the container and check the staus') {
          steps {
           script {
             if (env.GIT_BRANCH == "origin/master") { 
@@ -51,7 +51,7 @@ pipeline {
          }
      }
     
-     stage('Copy SSH key to dev server') {
+     stage('Copy SSH key') {
          steps {
            sh 'ansible-playbook -i ${WORKSPACE}/jenkinsci --private-key /sites/privatekey.pem ${WORKSPACE}/push-ssh-key.yml'
          }
@@ -61,6 +61,7 @@ pipeline {
       parallel {
        stage('Deploy to Dev Server'){
         when {
+          expression { return env.GIT_BRANCH == "origin/release" }
           allOf{
              environment ignoreCase: true, name: "DEPLOY_TO", value: "devserver";
           }
@@ -84,7 +85,8 @@ pipeline {
    
        stage('Deploy to Prod Server'){
         when {
-          allOf {
+          expression { return env.GIT_BRANCH == "origin/master" }
+          allOf{
              environment ignoreCase: true, name: "DEPLOY_TO", value: "prodserver";
           }
         } 
