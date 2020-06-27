@@ -24,7 +24,7 @@ pipeline {
      stage('build docker image') {
          steps {
            script {
-              if (env.BRANCH_NAME == 'master') { 
+              if (env.GIT_BRANCH == "origin/master") { 
                 docker.build("${CONTAINER}:${PROD_VERSION}")
               } else {
                 docker.build("${CONTAINER}:${VERSION}")
@@ -42,7 +42,7 @@ pipeline {
      stage('Check the staus') {
          steps {
           script {
-            if (env.BRANCH_NAME == 'master') { 
+            if (env.GIT_BRANCH == "origin/master") { 
               sh """ansible-playbook ${WORKSPACE}/image-status.yml -e image_version='${env.PROD_VERSION}'"""
             } else {
               sh """ansible-playbook ${WORKSPACE}/image-status.yml -e image_version='${env.VERSION}'"""
