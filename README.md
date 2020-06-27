@@ -1,3 +1,2 @@
-#Simple web app project for practice
-
-#Build is stable now
+#Simple web app project release branch
+---------------------------------------
