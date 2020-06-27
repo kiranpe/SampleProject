@@ -4,6 +4,7 @@ pipeline {
      DOCKER_REGISTRY='http://registry-1.docker.io'
      CONTAINER='apache'
      VERSION="1.${BUILD_NUMBER}"
+     PROD_VERSION="latest"
    }
 
    parameters {
@@ -23,7 +24,11 @@ pipeline {
      stage('build docker image') {
          steps {
            script {
+              if (env.BRANCH_NAME == 'master') { 
+                docker.build("${CONTAINER}:${PROD_VERSION}")
+              } else {
                 docker.build("${CONTAINER}:${VERSION}")
+              }
            }
          }
      }
@@ -37,7 +42,11 @@ pipeline {
      stage('Check the staus') {
          steps {
           script {
+            if (env.BRANCH_NAME == 'master') { 
+              sh """ansible-playbook ${WORKSPACE}/image-status.yml -e image_version='${env.PROD_VERSION}'"""
+            } else {
               sh """ansible-playbook ${WORKSPACE}/image-status.yml -e image_version='${env.VERSION}'"""
+            }
           }
          }
      }
@@ -90,7 +99,7 @@ pipeline {
            {
             script {
              echo "deploying to prod server"
-             sh """ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e 'hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${env.VERSION}'"""
+             sh """ansible-playbook -i ${WORKSPACE}/jenkinsci ${WORKSPACE}/deploy-prod.yml -e 'hub_user=${DOCKER_USER} hub_pass=${DOCKER_PASSWORD} image_version=${env.PROD_VERSION}'"""
             }
            }
         }
