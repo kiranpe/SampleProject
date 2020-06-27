@@ -39,7 +39,7 @@ pipeline {
         }
      }
 
-     stage('Run the container and check the staus') {
+     stage('Run the container and check the url staus') {
          steps {
           script {
             if (env.GIT_BRANCH == "origin/master") { 
