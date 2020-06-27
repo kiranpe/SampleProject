@@ -2,9 +2,9 @@
 -------------------------
 
 ------------------------------------------------------------------------------
-                  Tools:
-                  -------
-AWS + Terraform + Docker + Ansible + Jenkins + Git + ShellScripting + HTML
+|Tools:
+|-------
+|AWS + Terraform + Docker + Ansible + Jenkins + Git + ShellScripting + HTML
 -------------------------------------------------------------------------------
 
 #Once instances creation is done login in to jenkins and do below
