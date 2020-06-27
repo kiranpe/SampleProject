@@ -1,5 +1,5 @@
 - name: push ssh key to dev and prod servers
-  hosts: devserver
+  hosts: prodserver:devserver
   gather_facts: no
   
   tasks:
