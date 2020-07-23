@@ -12,6 +12,10 @@ pipeline:
    - "choice choices: ['devserver', 'prodserver'], description: '', name: 'DEPLOY_TO'"
    
    stages:
+   - stage: Checkout
+     steps:
+     - git 'https://github.com/kiranpe/SampleProject.git'
+    
    - stage: Clean Old Docker Images
      steps:
      - sh "docker system prune -a -f"
