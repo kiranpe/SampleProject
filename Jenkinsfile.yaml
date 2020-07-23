@@ -21,9 +21,18 @@ pipeline:
      - sh "docker system prune -a -f"
      
    - stage: Build docker Image
+     when:
+     - branch 'master'
      steps:
       script:
       - docker.build("${CONTAINER}:${PROD_VERSION}")
+    
+   - stage: Build Release Image 
+     when:
+     - branch 'release'
+     steps:
+      script:
+      - docker.build("${CONTAINER}:${VERSION}")
     
    - stage: Checking to stop old containers
      steps:
